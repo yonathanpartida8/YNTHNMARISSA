@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Marissa ✨</title>
+    <style>
+        :root {
+            --accent: #007aff;
+            --pink: #ff2d55;
+            --gold: #ffcc00;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Fondo de Aurora (Atrás de todo) */
+        .aurora {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            filter: blur(100px);
+            opacity: 0.4;
+        }
+        .blob {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            animation: move 15s infinite alternate;
+        }
+        .b1 { background: #4158D0; top: -10%; left: -10%; }
+        .b2 { background: var(--pink); bottom: -10%; right: -10%; animation-delay: -7s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(15%, 15%) scale(1.1); }
+        }
+
+        /* Canvas (Adelante de la tarjeta) */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10; /* Siempre al frente */
+            pointer-events: none; /* Deja interactuar con la tarjeta debajo */
+        }
+
+        .viewport {
+            perspective: 2000px;
+            z-index: 5;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass-card {
+            width: 85vw;
+            max-width: 380px;
+            height: 55vh;
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: rgba(255, 255, 255, 0.5);
+            transform: translateZ(40px);
+            margin-bottom: 10px;
+        }
+
+        .name {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #fff 20%, var(--pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: translateZ(100px);
+        }
+
+        .extra-text {
+            font-size: 1rem;
+            color: #fff;
+            margin-top: 25px;
+            transform: translateZ(60px);
+            font-weight: 300;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .btn-back {
+            position: absolute;
+            bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            font-size: 0.8rem;
+            z-index: 15;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="viewport">
+        <div class="glass-card" id="card">
+            <span class="label">Para alguien especial</span>
+            <h1 class="name">Marissa</h1>
+            <p class="extra-text">
+                Eres magia pura y neta que<br>
+                <span class="highlight">me encantas 100% ✨</span>
+            </p>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-back">← Inicio</a>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const card = document.getElementById('card');
+
+        let particles = [];
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, isTrail = false) {
+                this.x = x || Math.random() * width;
+                this.y = y || Math.random() * height;
+                this.size = Math.random() * (isTrail ? 3 : 1.5) + 0.5;
+                this.speedX = (Math.random() - 0.5) * (isTrail ? 4 : 0.8);
+                this.speedY = (Math.random() - 0.5) * (isTrail ? 4 : 0.8);
+                this.life = 1;
+                this.decay = isTrail ? 0.02 : 0.005;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.life > 0) this.life -= this.decay;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.life})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Partículas flotantes constantes
+            if (particles.length < 80) particles.push(new Particle());
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0) particles.splice(i, 1);
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // Interacción: La tarjeta se mueve, las partículas se crean ARRIBA
+        const handleInput = (e) => {
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+            // Efecto 3D de la tarjeta
+            const rotX = (window.innerHeight / 2 - y) / 15;
+            const rotY = (window.innerWidth / 2 - x) / 15;
+            card.style.transform = `rotateX(${rotX}deg) rotateY(${-rotY}deg)`;
+
+            // Crear rastro de partículas al frente
+            for (let i = 0; i < 3; i++) {
+                particles.push(new Particle(x, y, true));
+            }
+        };
+
+        window.addEventListener('mousemove', handleInput);
+        window.addEventListener('touchmove', (e) => {
+            handleInput(e);
+        }, { passive: false });
+
+        window.addEventListener('touchend', () => {
+            card.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        });
+
+        animate();
+    </script>
+</body>
+</html>

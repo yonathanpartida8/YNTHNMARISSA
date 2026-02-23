@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nuestros Momentos ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-pink: #ff4d6d;
+            --light-pink: #ffbcc9;
+            --text-color: #ffffff;
+            --background-dark: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Estrellas optimizadas */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 0.7; transform: scale(1); }
+        }
+
+        /* Navegación Superior */
+        .nav-top {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-start;
+            z-index: 10;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass);
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            transition: 0.3s;
+        }
+
+        /* Título */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8em;
+            margin: 10px 0 30px;
+            text-align: center;
+            background: linear-gradient(to right, #fff, var(--light-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 1;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+
+        /* Galería */
+        .gallery-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 0 20px 100px;
+            z-index: 1;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card-wrapper {
+            perspective: 1000px;
+            height: 220px;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card.flipped { transform: rotateY(180deg); }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-back {
+            background: white;
+            color: #24243e;
+            transform: rotateY(180deg);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 0.85em;
+        }
+
+        .card-back p { margin: 0; line-height: 1.4; font-weight: 400; }
+
+        /* Reproductor Flotante */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #musicBtn {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Corazones */
+        .heart {
+            position: fixed;
+            font-size: 1.5em;
+            pointer-events: none;
+            z-index: 99;
+            animation: fly 3s linear forwards;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px) rotate(45deg); opacity: 0; }
+        }
+
+        @media (max-width: 380px) {
+            h1 { font-size: 2.2em; }
+            .card-wrapper { height: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="star-container"></div>
+
+    <nav class="nav-top">
+        <a href="index.html" class="btn-back">
+            <span>←</span> Volver al Inicio
+        </a>
+    </nav>
+
+    <h1>Nuestros Momentos</h1>
+
+    <div class="gallery-container">
+        <div class="gallery" id="main-gallery">
+            </div>
+    </div>
+
+    <div class="music-player">
+        <audio id="miMusica" loop>
+            <source src="fotos.mp3" type="audio/mpeg">
+        </audio>
+        <button onclick="toggleMusic()" id="musicBtn">
+            <span id="musicIcon">🎵</span> <span id="musicText">Darle Play</span>
+        </button>
+    </div>
+
+    <script>
+        // Configuración: Solo añade o quita textos aquí
+        const recuerdos = [
+            "TE AMO...",
+            "ME ENCANTAS...",
+            "ERES LO MAS BELLO...",
+            "SIEMPRE TE CUIDARE...",
+            "TE QUIERO HACER FELIZ...",
+            "ERES UNA TIQUITA MONITA..."
+        ];
+
+        const gallery = document.getElementById('main-gallery');
+
+        // Generación limpia de tarjetas (buscando imagen1.jpg, imagen2.jpg, etc.)
+        recuerdos.forEach((texto, index) => {
+            const num = index + 1;
+            const cardHTML = `
+                <div class="card-wrapper">
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-face card-front">
+                            <img src="imagen${num}.jpg" alt="Recuerdo ${num}" loading="lazy">
+                        </div>
+                        <div class="card-face card-back">
+                            <p><strong>Día ${num}</strong></p><br>
+                            <p>${texto}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            gallery.innerHTML += cardHTML;
+        });
+
+        // Estrellas de fondo
+        const starContainer = document.getElementById('star-container');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starContainer.appendChild(star);
+        }
+
+        // Lógica de tarjetas
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+            createHeart(event.clientX, event.clientY);
+        }
+
+        // Música
+        const musica = document.getElementById('miMusica');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+
+        function toggleMusic() {
+            if (musica.paused) {
+                musica.play();
+                musicIcon.textContent = "⏸️";
+                musicText.textContent = "Pausar";
+            } else {
+                musica.pause();
+                musicIcon.textContent = "🎵";
+                musicText.textContent = "Darle Play";
+            }
+        }
+
+        // Efecto de corazones al tocar
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        // Parallax suave al hacer scroll
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.card-wrapper');
+            cards.forEach((c, i) => {
+                const speed = 0.05;
+                const rect = c.getBoundingClientRect();
+                if(rect.top < window.innerHeight && rect.bottom > 0) {
+                    const shift = rect.top * speed;
+                    c.style.transform = `translateY(${shift}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

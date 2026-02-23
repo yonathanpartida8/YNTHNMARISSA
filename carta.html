@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Amorcitico Tiquita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d63384;
+            --secondary: #ff85a2;
+            --bg: #fff0f3;
+            --text: #4a4a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Fondo de pétalos animados */
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Secciones de scroll */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            max-width: 800px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+
+        .content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 1.4rem;
+        }
+
+        /* Caja de promesas */
+        .promises {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.1);
+            border-left: 5px solid var(--primary);
+            text-align: left;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .promise-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .promise-item span {
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .footer-note {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-top: 50px;
+        }
+
+        /* Botón Regresar al Index */
+        .btn-home {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-home:hover {
+            transform: scale(1.1);
+            background: var(--secondary);
+            box-shadow: 0 6px 20px rgba(214, 51, 132, 0.5);
+        }
+
+        /* Indicador de scroll */
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* Estilo de los pétalos */
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.7; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="petals-container" id="petals"></div>
+
+    <a href="index.html" class="btn-home">
+        <span>🏠</span> Volver al Inicio
+    </a>
+
+    <section>
+        <div class="content visible">
+            <h1>Para Marissa</h1>
+            <p class="highlight">Mi amorcito tiquita...</p>
+            <p>Hoy cumplimos 6 meses y no quería dejar pasar el día sin decirte que estos han sido, sin ninguna duda, los mejores meses de mi vida.</p>
+            <div class="scroll-down">↓</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="content">
+            <p>Mirando atrás, me doy cuenta de lo mucho que hemos crecido y de lo afortunado que soy por tenerte a mi lado.</p>
+            <p class="highlight">Mi amor por ti es puro, real y sumamente fuerte.</p>
+            <p>No estoy aquí de paso; estoy aquí para quedarme. No tienes por qué temer, porque nunca te dejaría ni mucho menos te cambiaría por nadie.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="content">
+            <p>Eres única para mí y mi lugar favorito siempre será a tu lado.</p>
+            <p>Sé que a veces la mente te juega malas pasadas y el sobrepensar se vuelve pesado. Por eso, mi regalo para ti hoy y siempre es mi paciencia y mi apoyo:</p>
+            
+            <div class="promises">
+                <div class="promise-item"><span>💭</span> <strong>Cuando tengas dudas:</strong> Házmelo saber.</div>
+                <div class="promise-item"><span>🛡️</span> <strong>Si necesitas seguridad:</strong> Te voy a sobreexplicar lo que haga falta.</div>
+                <div class="promise-item"><span>💖</span> <strong>Si te sientes insegura:</strong> Aquí estaré para recordarte lo valiosa que eres.</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="content">
+            <p>Mis intenciones contigo son las más lindas y sinceras; mi meta es cuidarte y proteger lo que tenemos.</p>
+            <p>Gracias por estos 6 meses de risas, de apoyo y de amor verdadero. Vamos por muchísimos más.</p>
+            <h2 class="footer-note">Feliz aniversario, mi vida. Te amo demasiado. 🌹</h2>
+        </div>
+    </section>
+
+    <script>
+        // Animación de aparición al hacer scroll
+        const observerOptions = {
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Generador de pétalos
+        function createPetal() {
+            const container = document.getElementById('petals');
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            const size = Math.random() * 15 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+            
+            container.appendChild(petal);
+
+            setTimeout(() => {
+                petal.remove();
+            }, 5000);
+        }
+
+        setInterval(createPetal, 300);
+    </script>
+</body>
+</html>
