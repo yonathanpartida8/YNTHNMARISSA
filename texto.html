@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi universo entero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;500&family=Birthstone&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #eecda3;
+            --bg-dark: #0f0c29;
+            --bg-gradient: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: #ffffff;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            min-height: 200vh;
+        }
+
+        /* Fondo de Estrellas/Nebulosa */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Música floating button */
+        #music-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--glass);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(238, 205, 163, 0.3);
+        }
+
+        #music-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Birthstone', cursive;
+            font-size: 6rem;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(238, 205, 163, 0.5);
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        /* Contenido con Glassmorphism */
+        .content-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 30px;
+            margin-bottom: 150px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card p {
+            font-size: 1.2rem;
+            line-height: 2;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .highlight {
+            font-family: 'Cinzel', serif;
+            color: var(--accent);
+            display: block;
+            margin: 20px 0;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+
+        .signature {
+            font-family: 'Birthstone', cursive;
+            font-size: 4rem;
+            color: var(--accent);
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 4rem; }
+            .card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-bg"></canvas>
+
+    <button id="music-btn" onclick="toggleMusic()">♪</button>
+    <audio id="player" loop>
+        <source src="text.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="hero">
+        <h1>Hola, amor de mi vida</h1>
+        <div class="scroll-indicator">Desliza para leer mi corazón</div>
+    </div>
+
+    <div class="content-wrap">
+        <div class="card">
+            <p>Te escribo esto mientras descansas, aprovechando el silencio de la noche para dejar que mi corazón hable sin interrupciones. Sé que ahora estás en tu mundo de sueños, y me llena de paz imaginarte así, tranquila, porque te mereces todo el descanso del mundo.</p>
+        </div>
+
+        <div class="card">
+            <p>Quería decirte algo que para mí es fundamental que sepas y que guardes en ese lugar especial de tu alma: 
+            <span class="highlight">TE AMO DESDE LA LIBERTAD MÁS ABSOLUTA.</span>
+            A veces el mundo confunde el amor con la necesidad, pero lo nuestro es mucho más real que eso. Quiero que recuerdes que no tengo una dependencia emocional hacia ti pues mi vida tiene sentido por sí misma, pero elijo con toda la consciencia y el alma que mi sentido sea a tu lado.</p>
+        </div>
+
+        <div class="card">
+            <p>No te amo porque "te necesite" para sobrevivir, te amo porque eres la persona más increíble que he conocido y porque decidir amarte cada mañana es la decisión más monita que he tomado en mi vida. Mi amor por ti no es una cadena, es un vuelo que decido emprender contigo todos los días.</p>
+        </div>
+
+        <div class="card">
+            <p>Y precisamente porque es una elección, quiero que te sientas segura. No me voy a ir. No estoy buscando la puerta de salida, ni se me ha pasado por la mente, ni tengo la más mínima intención de hacerlo. Estoy aquí plantado, con la bandera de lo nuestro bien puesta, porque lo que siento por ti es amor verdadero, de ese que no se asusta con las tormentas ni se cansa con la rutina.</p>
+        </div>
+
+        <div class="card">
+            <span class="highlight">PARA TU CABECITA...</span>
+            <p>Sé que a veces se pone a mil por hora. Sé que el TOC de amores puede ser una sombra ruidosa que te susurra dudas o miedos que no pediste tener. Pero amorcito, escúchame bien: cuando tu mente empiece a sobrepensar, aquí estoy yo para ser tu ancla. No tengas miedo de decirme qué pasa por tu cabeza. No me asusta, no me cansa y, sobre todo, no me enoja.</p>
+        </div>
+
+        <div class="card">
+            <p>Si necesitas que te explique algo mil veces, lo haré. Si necesitas que te escuche en silencio mientras sacas todo ese ruido, aquí estoy. Si solo necesitas que te diga que todo va a estar bien, te lo diré las veces que sean necesarias, No te sientas una "carga", porque acompañarte en tus procesos es parte de amarte, y yo te amo completa, con todo y tus días de nudos en la mente.</p>
+        </div>
+
+        <div class="card">
+            <p>La distancia :c ¡rayos!, la distancia duele, no te voy a mentir. Te extraño de una forma que a veces no me cabe en el pecho. Pero la distancia también me ha enseñado que lo que tenemos es inquebrantable. A pesar de los kilómetros, te siento en cada canción, en cada pensamiento y en cada latido.</p>
+        </div>
+
+        <div class="card">
+            <p>No estoy enojado, ni distanciado, ni nada que se le parezca. Al contrario, me siento más cerca de ti que nunca. Eres mi lugar seguro y quiero ser el tuyo. Cuando leas esto, quiero que respires profundo y sepas que hay alguien del otro lado de la pantalla que te admira profundamente y te ama por elección propia y muchisimo.</p>
+            <div class="signature">Te amo muchisimo por siempre</div>
+        </div>
+    </div>
+
+    <script>
+        // --- EFECTO DE FONDO (ESTRELLAS ANIMADAS) ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 150; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#eecda3';
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.y -= s.speed;
+                if (s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawStars();
+
+        // --- EFECTO DE REVELADO (SCROLL) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+        // --- MÚSICA ---
+        function toggleMusic() {
+            const player = document.getElementById('player');
+            const btn = document.getElementById('music-btn');
+            if (player.paused) {
+                player.play();
+                btn.innerHTML = '⏸';
+            } else {
+                player.pause();
+                btn.innerHTML = '♪';
+            }
+        }
+    </script>
+</body>
+</html>
